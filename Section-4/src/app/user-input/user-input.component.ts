@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import type { InvestmentInput } from '../investment-input.model';
 
 @Component({
   selector: 'app-user-input',
@@ -9,12 +10,23 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './user-input.component.css',
 })
 export class UserInputComponent {
-  enteredInitialValue = '0';
-  enteredAnnualValue = '0';
-  enteredReturnValue = '0';
-  enteredDurationValue = '0';
+  calculate = output<InvestmentInput>();
+
+  enteredInitialValue = signal('0');
+  enteredAnnualValue = signal('0');
+  enteredReturnValue = signal('0');
+  enteredDurationValue = signal('0');
 
   onSubmit() {
-    console.log('Submitted');
+    this.calculate.emit({
+      initialInvestment: +this.enteredInitialValue(),
+      duration: +this.enteredDurationValue(),
+      expectedReturn: +this.enteredReturnValue(),
+      annualInvestment: +this.enteredAnnualValue(),
+    });
+    this.enteredInitialValue.set('0');
+    this.enteredAnnualValue.set('0');
+    this.enteredReturnValue.set('0');
+    this.enteredDurationValue.set('0');
   }
 }
