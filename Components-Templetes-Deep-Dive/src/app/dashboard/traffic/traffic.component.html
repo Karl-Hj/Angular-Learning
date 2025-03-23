@@ -3,5 +3,6 @@
 <div id="chart">
   @for (dataPoint of dummyTrafficData; track dataPoint.id) {
   <div [style.height]="(dataPoint.value / maxTraffic) * 100 + '%'"></div>
+  <!--[Styles] can be used asan object or as shown to change style properties.-->
   }
 </div>
